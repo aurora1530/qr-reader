@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* App base styles */
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #f5f1e8;
+  color: #1f1f1f;
+  font-family: "Karla", "Noto Sans JP", system-ui, -apple-system, sans-serif;
+}
