@@ -192,7 +192,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#f5f1e8] px-6 py-10">
-      <div className="mx-auto flex w-full max-w-3xl flex-col gap-8">
+      <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 pb-10">
         <header className="space-y-3">
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#9b4d2a]">
             QR Reader
@@ -308,6 +308,10 @@ function App() {
             )}
           </div>
         </section>
+
+        <footer className="text-center text-xs text-[#6b5e4b]">
+          QRコードは株式会社デンソーウェーブの登録商標です
+        </footer>
       </div>
     </div>
   )
