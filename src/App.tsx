@@ -36,6 +36,7 @@ function App() {
   const [decodeResult, setDecodeResult] = useState<string | null>(null)
   const [decodeError, setDecodeError] = useState<string | null>(null)
   const [isDecoding, setIsDecoding] = useState(false)
+  const [copyMessage, setCopyMessage] = useState<string | null>(null)
 
   useEffect(() => {
     if (!selectedFile) {
@@ -84,18 +85,20 @@ function App() {
       if (!code) {
         setDecodeError('QRコードが見つかりませんでした。')
       } else {
-        setDecodeResult(code.data)
-      }
-      setIsDecoding(false)
-      URL.revokeObjectURL(url)
+      setDecodeResult(code.data)
     }
-    image.onerror = () => {
+    setIsDecoding(false)
+    setCopyMessage(null)
+    URL.revokeObjectURL(url)
+  }
+  image.onerror = () => {
       if (cancelled) {
         URL.revokeObjectURL(url)
         return
       }
       setDecodeError('画像の読み込みに失敗しました。')
       setIsDecoding(false)
+      setCopyMessage(null)
       URL.revokeObjectURL(url)
     }
     image.src = url
@@ -171,8 +174,19 @@ function App() {
     setDecodeResult(null)
     setDecodeError(null)
     setIsDecoding(false)
+    setCopyMessage(null)
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
+    }
+  }
+
+  const handleCopy = async () => {
+    if (!decodeResult) return
+    try {
+      await navigator.clipboard.writeText(decodeResult)
+      setCopyMessage('コピーしました。')
+    } catch {
+      setCopyMessage('コピーに失敗しました。')
     }
   }
 
@@ -250,16 +264,28 @@ function App() {
                       <p className="break-words whitespace-pre-wrap rounded-lg bg-[#f8f3ea] px-3 py-2">
                         {decodeResult}
                       </p>
-                      {isHttpUrl(decodeResult) && (
-                        <a
-                          href={decodeResult}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center text-sm font-semibold text-[#1f1f1f] underline decoration-[#c7a87a] decoration-2 underline-offset-4 hover:text-[#9b4d2a]"
+                      <div className="flex flex-wrap items-center gap-3">
+                        <button
+                          type="button"
+                          onClick={handleCopy}
+                          className="rounded-full bg-[#1f1f1f] px-4 py-1 text-xs font-semibold text-white hover:bg-[#3a3a3a]"
                         >
-                          リンクを開く
-                        </a>
-                      )}
+                          コピー
+                        </button>
+                        {copyMessage && (
+                          <span className="text-xs text-[#6b5e4b]">{copyMessage}</span>
+                        )}
+                        {isHttpUrl(decodeResult) && (
+                          <a
+                            href={decodeResult}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-xs font-semibold text-[#1f1f1f] underline decoration-[#c7a87a] decoration-2 underline-offset-4 hover:text-[#9b4d2a]"
+                          >
+                            リンクを開く
+                          </a>
+                        )}
+                      </div>
                     </div>
                   )}
                   {!isDecoding && !decodeError && !decodeResult && (
