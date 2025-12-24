@@ -80,7 +80,9 @@ function App() {
 
       context.drawImage(image, 0, 0, canvas.width, canvas.height)
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height)
-      const code = jsQR(imageData.data, imageData.width, imageData.height)
+      const code = jsQR(imageData.data, imageData.width, imageData.height, {
+        inversionAttempts: "attemptBoth",
+      })
 
       if (!code) {
         setDecodeError('QRコードが見つかりませんでした。')
