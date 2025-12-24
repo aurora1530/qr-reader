@@ -204,6 +204,10 @@ function App() {
             画像ファイルを選択するか、ページを開いた状態で Ctrl + V / Command + V を押して
             画像を貼り付けてください。
           </p>
+          <p className="text-sm text-[#6b5e4b]">
+            解析はすべてブラウザ内で完結します。GitHub Pages で配信される静的サイトのため、
+            アプリケーションサーバーが存在せず、画像やデータが外部に送信される余地はありません。
+          </p>
         </header>
 
         <section className="rounded-3xl border border-[#e2d7c4] bg-white/80 p-6 shadow-sm backdrop-blur">
